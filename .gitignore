@@ -1,13 +1,26 @@
-# Maven build output
+# Maven target folder
 target/
 
 # Compiled class files
 *.class
 
-# IntelliJ
-.idea/
-*.iml
-.vscode/
+# Logs
+*.log
 
-# OS
+# IntelliJ / Eclipse / VSCode
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# JARs built locally
+*.jar
+
+# Temporary files
+*.tmp
