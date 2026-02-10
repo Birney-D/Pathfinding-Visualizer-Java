@@ -31,13 +31,13 @@ mvn clean package
 ```
 
 ### Run
-args[0] = grid width (1 - 100)
-args[2] = grid height (1 - 100)
-args[2] = obstacle placement (auto or manual):
-	* auto - maze generated automatically using Wilson's Algorithm
-	* manual - use left mouse click to place blocks, right click to remove them
-args[3] = pathfinding algorithm choice (DFS, BFS, ASTAR)
-args[4] = pathfinding speed (1-3)
+* args[0] = grid width (1 - 100)
+* args[2] = grid height (1 - 100)
+* args[2] = obstacle placement (auto or manual):
+	- auto - maze generated automatically using Wilson's Algorithm
+	- manual - use left mouse click to place blocks, right click to remove them
+* args[3] = pathfinding algorithm choice (DFS, BFS, ASTAR)
+* args[4] = pathfinding speed (1-3)
 
 ```bash
 java -jar target/<your-jar-name>.jar <gridwidth> <gridheight> <manual/auto wall placement> <PFAlgorithm> <speed 1-3>
