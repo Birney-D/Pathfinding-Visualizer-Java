@@ -698,29 +698,56 @@ public class MazeAnimator extends JPanel implements Runnable {
         }
     }
 
+    // Helper for parsing user input with error handling and default values
+    private static int parseIntArg(String arg, int def, int min, int max, String name) {
+        try {
+            int value = Integer.parseInt(arg);
+            if (value < min || value > max) {
+                System.err.printf("Invalid %s '%s' (range %d-%d). Using default %d.%n",
+                        name, arg, min, max, def);
+                return def;
+            }
+            return value;
+        } catch (NumberFormatException e) {
+            System.err.printf("Invalid %s '%s'. Using default %d.%n", name, arg, def);
+            return def;
+        }
+    }
+
 
     public static void main(String[] args) {
-        // Defaults
-        int width = 25;
-        int height = 25;
+        final int MAX_GRID = 100;
+        final int DEFAULT_SIZE = 25;
+        final int DEFAULT_SPEED = 2;
+
+        int width = DEFAULT_SIZE;
+        int height = DEFAULT_SIZE;
         boolean autoMaze = false;
         Strategy strategy = Strategy.A_STAR;
-        int speed = 2;
+        int speed = DEFAULT_SPEED;
 
-        if (args.length >= 1) width = Integer.parseInt(args[0]);
-        if (args.length >= 2) height = Integer.parseInt(args[1]);
-        if (args.length >= 3) autoMaze = args[2].equalsIgnoreCase("auto");
+        // uses command line args if present, else defaults used
+        if (args.length >= 1) 
+            width = parseIntArg(args[0], DEFAULT_SIZE, 1, MAX_GRID, "width");
+        
+        if (args.length >= 2) 
+            height = parseIntArg(args[1], DEFAULT_SIZE, 1, MAX_GRID, "height");
+        
+        if (args.length >= 3) 
+            autoMaze = args[2].equalsIgnoreCase("auto");
+        
         if (args.length >= 4) {
-            String strat = args[3].toUpperCase();
-            switch (strat) {
-                case "A_STAR" -> strategy = Strategy.A_STAR;
-                case "BFS" -> strategy = Strategy.BFS;
-                case "DFS" -> strategy = Strategy.DFS;
-                default -> System.err.println("Unknown strategy: " + strat);
+            try {
+                strategy = Strategy.valueOf(args[3].toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.err.printf("Unknown strategy '%s'. Using A_STAR.%n", args[3]);
+                strategy = Strategy.A_STAR;
             }
         }
-        if (args.length >= 5) speed = Integer.parseInt(args[4]);
-
+            
+        if (args.length >= 5) 
+            speed = parseIntArg(args[4], DEFAULT_SPEED, 1, 3, "speed");
+        
         new MazeAnimator(width, height, autoMaze, strategy, speed).go();
     }
 }
